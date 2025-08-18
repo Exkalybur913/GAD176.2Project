@@ -4,33 +4,42 @@ using UnityEngine;
 using static IDamageable;
 
 
-public class Bullet : MonoBehaviour
+
+public class EnemyBullet : MonoBehaviour
 {
-    [SerializeField] private float speed = 20f;
+    [Header("Bullet Settings")]
+    [SerializeField] private float speed = 25f;
+    [SerializeField] private int damageAmount = 20;
     [SerializeField] private float lifetime = 5f;
-    [SerializeField] private int damage = 10;
 
     private Rigidbody rb;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, lifetime); // Auto-destroy after time
+        if (rb == null)
+        {
+            Debug.LogError("EnemyBullet is missing a Rigidbody component.");
+        }
     }
 
-    public void Fire(Vector3 direction)
+    private void Start()
     {
-        rb.velocity = direction * speed;
+     
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // Prevent hitting self or other bullets
+        if (other.CompareTag("Enemy") || other.gameObject == gameObject)
+            return;
+
         IDamageable damageable = other.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            Debug.Log($"Enemy hit."); ;
+            damageable.TakeDamage(1);
         }
 
-        Destroy(gameObject); // Destroy bullet on hit
+        Destroy(gameObject);
     }
 }
