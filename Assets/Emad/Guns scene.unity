@@ -919,6 +919,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1821567281850217983, guid: 05df20bd2b8bcf94ab4be0c8a28b9deb, type: 3}
+      propertyPath: sword
+      value: 
+      objectReference: {fileID: 766951939}
+    - target: {fileID: 1821567281850217983, guid: 05df20bd2b8bcf94ab4be0c8a28b9deb, type: 3}
       propertyPath: equippedWeapon
       value: 
       objectReference: {fileID: 28399556}

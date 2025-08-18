@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAIPistol : MonoBehaviour
-{
+{  /// <summary>// This script controls an enemy AI that uses a pistol to shoot at the player when detected.
+/// </summary>
     [Header("Vision Settings")]
     [SerializeField] private float detectionRadius = 20f;
     [SerializeField] private float visionAngle = 60f;
@@ -20,11 +21,11 @@ public class EnemyAIPistol : MonoBehaviour
 
     private void Update()
     {
-        if (CanSeePlayer(out Transform player))
+        if (CanSeePlayer(out Transform player)) // Check if the player is visible
         {
             transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
 
-            if (Time.time > lastFireTime + fireCooldown)
+            if (Time.time > lastFireTime + fireCooldown) // Check if the enemy can fire again
             {
                 ShootAtPlayer(player);
                 lastFireTime = Time.time;
@@ -35,19 +36,19 @@ public class EnemyAIPistol : MonoBehaviour
     private bool CanSeePlayer(out Transform playerTransform)
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
-        foreach (Collider hit in hits)
+        foreach (Collider hit in hits) // Check for player within detection radius
         {
             Vector3 dirToPlayer = (hit.transform.position - transform.position).normalized;
-            float angle = Vector3.Angle(transform.forward, dirToPlayer);
+            float angle = Vector3.Angle(transform.forward, dirToPlayer);// Calculate angle to player
 
             if (angle < visionAngle / 2f)
             {
-                float distanceToPlayer = Vector3.Distance(transform.position, hit.transform.position);
+                float distanceToPlayer = Vector3.Distance(transform.position, hit.transform.position);// Calculate distance to player
 
                 if (!Physics.Raycast(transform.position, dirToPlayer, distanceToPlayer, obstructionMask))
                 {
                     playerTransform = hit.transform;
-                    return true;
+                    return true;// Player is visible and not obstructed
                 }
             }
         }
@@ -56,15 +57,15 @@ public class EnemyAIPistol : MonoBehaviour
         return false;
     }
 
-    private void ShootAtPlayer(Transform player)
+    private void ShootAtPlayer(Transform player) // Fire a bullet towards the player
     {
         if (bulletPrefab == null || firePoint == null) return;
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-        Vector3 dir = (player.position - firePoint.position).normalized;
+        Vector3 dir = (player.position - firePoint.position).normalized; // Calculate direction to player
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        if (rb != null)
+        if (rb != null)// Check if the bullet has a Rigidbody component
         {
             rb.velocity = dir * bulletSpeed;
         }

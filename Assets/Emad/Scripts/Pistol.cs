@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Pistol : Weapon
 {
+    // This script manages the pistol weapon functionality, including shooting, reloading, and ammo management.
     [Header("Shooting")]
     [SerializeField] private float range = 100f;
     [SerializeField] private float fireRate = 0.5f;
@@ -25,7 +26,7 @@ public class Pistol : Weapon
     private void Start()
     {
         currentAmmo = magazineSize;
-        UpdateAmmoUI();
+        UpdateAmmoUI();// Initialize ammo UI
     }
 
     private void Update()
@@ -35,7 +36,7 @@ public class Pistol : Weapon
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartCoroutine(Reload());
-            return;
+            return;// Prevent further input while reloading
         }
 
         if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
@@ -43,7 +44,7 @@ public class Pistol : Weapon
             if (currentAmmo > 0)
             {
                 nextFireTime = Time.time + fireRate;
-                Attack();
+                Attack();// Call the Attack method to shoot
             }
             else
             {
@@ -62,7 +63,7 @@ public class Pistol : Weapon
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
 
-        // Optional: Draw the ray in Scene view
+        //Draw the ray in Scene view, something ive seen in class and thought very helpful for debugging
         Debug.DrawRay(ray.origin, ray.direction * range, Color.red, 1f);
 
         if (Physics.Raycast(ray, out RaycastHit hit, range, targetMask))
@@ -77,7 +78,7 @@ public class Pistol : Weapon
 
         currentAmmo--;
         UpdateAmmoUI();
-        Debug.Log($"{weaponName} fired. Ammo: {currentAmmo}/{magazineSize}");
+        Debug.Log($"{weaponName} fired. Ammo: {currentAmmo}/{magazineSize}");// Log the ammo count after firing
     }
 
     private System.Collections.IEnumerator Reload()
@@ -85,7 +86,7 @@ public class Pistol : Weapon
         isReloading = true;
         Debug.Log("Reloading...");
 
-        yield return new WaitForSeconds(reloadTime);
+        yield return new WaitForSeconds(reloadTime);// Wait for the reload time
 
         currentAmmo = magazineSize;
         isReloading = false;
@@ -106,6 +107,6 @@ public class Pistol : Weapon
     {
         base.Equip();
         isReloading = false;
-        UpdateAmmoUI();
+        UpdateAmmoUI();// Update ammo UI when equipped
     }
 }

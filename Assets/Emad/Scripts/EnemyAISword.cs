@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyAISword : MonoBehaviour
 {
+    /// This script controls an enemy AI that uses a sword to attack the player when detected.
     [Header("Vision Settings")]
     [SerializeField] private float detectionRadius = 15f;
     [SerializeField] private float visionAngle = 70f;
@@ -29,13 +30,13 @@ public class EnemyAISword : MonoBehaviour
     {
         if (CanSeePlayer(out player))
         {
-            agent.SetDestination(player.position);
+            agent.SetDestination(player.position); // Move towards the player
 
             float distance = Vector3.Distance(transform.position, player.position);
-            if (distance <= attackRange && Time.time > lastAttackTime + attackCooldown)
+            if (distance <= attackRange && Time.time > lastAttackTime + attackCooldown)// Check if within attack range and cooldown is over
             {
                 Attack();
-                lastAttackTime = Time.time;
+                lastAttackTime = Time.time;// Reset attack cooldown
             }
         }
         else
@@ -47,7 +48,7 @@ public class EnemyAISword : MonoBehaviour
     private bool CanSeePlayer(out Transform playerTransform)
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
-        foreach (Collider hit in hits)
+        foreach (Collider hit in hits)// Check for player within detection radius
         {
             Vector3 dirToPlayer = (hit.transform.position - transform.position).normalized;
             float angle = Vector3.Angle(transform.forward, dirToPlayer);
@@ -59,7 +60,7 @@ public class EnemyAISword : MonoBehaviour
                 if (!Physics.Raycast(transform.position, dirToPlayer, distanceToPlayer, obstructionMask))
                 {
                     playerTransform = hit.transform;
-                    return true;
+                    return true;// Player is visible and not obstructed again
                 }
             }
         }
@@ -72,7 +73,7 @@ public class EnemyAISword : MonoBehaviour
     {
         if (animator != null)
         {
-            animator.SetTrigger("Attack");
+            animator.SetTrigger("Attack");// Trigger the attack animation
             DealSwordDamage();
 
         }
@@ -86,7 +87,7 @@ public class EnemyAISword : MonoBehaviour
             IDamageable damageable = player.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(3); // Or whatever sword damage
+                damageable.TakeDamage(3);// Deal 3 damage to the player
             }
         }
     }

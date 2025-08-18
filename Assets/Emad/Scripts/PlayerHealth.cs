@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IPlayerHealth : MonoBehaviour, IDamageable
 {
+    /// This script manages the player's health and handles damage and death events.
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private GameObject deathUI;
 
@@ -15,7 +16,7 @@ public class IPlayerHealth : MonoBehaviour, IDamageable
         currentHealth = maxHealth;
         Time.timeScale = 1f; // Start with normal time
         if (deathUI != null)
-            deathUI.SetActive(false);
+            deathUI.SetActive(false);// Hide death screen initially
     }
 
     public void TakeDamage(int amount)
@@ -23,11 +24,11 @@ public class IPlayerHealth : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHealth -= amount;
-        Debug.Log($"Player took {amount} damage. Health: {currentHealth}/{maxHealth}");
+        Debug.Log($"Player took {amount} damage. Health: {currentHealth}/{maxHealth}");// Log damage taken
 
         if (currentHealth <= 0)
         {
-            Die();
+            Die();// Player dies if health reaches 0
         }
     }
 
@@ -39,9 +40,9 @@ public class IPlayerHealth : MonoBehaviour, IDamageable
         if (deathUI != null)
             deathUI.SetActive(true); // Show death screen
 
-        Time.timeScale = 0f; //  Instantly freeze time
-      
-       Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0f; //  Instantly freeze time for death screen
+
+        Cursor.lockState = CursorLockMode.None;
        Cursor.visible = true;
     }
 }

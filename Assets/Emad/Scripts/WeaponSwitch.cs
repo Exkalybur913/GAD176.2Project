@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class WeaponSwitching : MonoBehaviour
 {
+    /// This script allows the player to switch between different weapons (pistol and sword) using number keys.
     [SerializeField] private GameObject pistol;
     [SerializeField] private GameObject sword;
     [SerializeField] private TextMeshProUGUI equippedWeapon;
@@ -41,7 +42,7 @@ public class WeaponSwitching : MonoBehaviour
     private void EquipWeapon(GameObject weaponToEquip)
     {
         if (currentWeapon == weaponToEquip)
-            return;
+            return;// If the weapon is already equipped, do nothing
 
         if (pistol != null) pistol.SetActive(false);
         if (sword != null) sword.SetActive(false);
@@ -51,9 +52,8 @@ public class WeaponSwitching : MonoBehaviour
             weaponToEquip.SetActive(true);
             currentWeapon = weaponToEquip;
 
-            // If the weapon implements IWeapon, we can call Equip()
             IWeapon weaponScript = weaponToEquip.GetComponent<IWeapon>();
-            weaponScript?.Equip();
+            weaponScript?.Equip();//
         }
     }
 }

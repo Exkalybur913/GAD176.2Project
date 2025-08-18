@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
+    /// This script manages the enemy's health and handles damage and death events.
     [SerializeField] private int health = 100;
 
     public void TakeDamage(int amount)
@@ -21,6 +22,6 @@ public class Enemy : MonoBehaviour, IDamageable
     private void Die()
     {
         Debug.Log($"{gameObject.name} died.");
-        Destroy(gameObject);
+        Destroy(gameObject);// Destroy the enemy game object
     }
 }

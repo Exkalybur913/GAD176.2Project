@@ -7,6 +7,8 @@ using static IDamageable;
 
 public class EnemyBullet : MonoBehaviour
 {
+    /// <summary>
+    // This script controls the behavior of the enemy bullet
     [Header("Bullet Settings")]
     [SerializeField] private float speed = 25f;
     [SerializeField] private int damageAmount = 20;
@@ -17,7 +19,7 @@ public class EnemyBullet : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        if (rb == null)
+        if (rb == null) // Check if Rigidbody is attached
         {
             Debug.LogError("EnemyBullet is missing a Rigidbody component.");
         }
@@ -37,7 +39,7 @@ public class EnemyBullet : MonoBehaviour
         IDamageable damageable = other.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(1);
+            damageable.TakeDamage(1);// 1 damage point to the player
         }
 
         Destroy(gameObject);
