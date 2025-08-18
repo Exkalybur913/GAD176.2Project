@@ -73,6 +73,8 @@ public class EnemyAISword : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("Attack");
+            DealSwordDamage();
+
         }
 
         Debug.Log("Enemy sword attack triggered.");
@@ -84,7 +86,7 @@ public class EnemyAISword : MonoBehaviour
             IDamageable damageable = player.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(3); 
+                damageable.TakeDamage(3); // Or whatever sword damage
             }
         }
     }
