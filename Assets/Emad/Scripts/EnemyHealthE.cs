@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class EnemyHealthE : MonoBehaviour
-{
-
-}
- public class Takeit : EDamageable
+public class EnemyHealthE : MonoBehaviour, IDamageable
 {
     [SerializeField] private int health = 100;
 
